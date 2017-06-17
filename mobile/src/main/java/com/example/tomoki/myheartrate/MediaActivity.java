@@ -64,6 +64,8 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 
@@ -92,6 +94,9 @@ public class MediaActivity
 
 
     private int judge_sleep = 0;
+
+    private Timer timer;
+    private MainTimerTask maintimerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -156,6 +161,8 @@ public class MediaActivity
                 e.printStackTrace();
             }
 
+        Toast.makeText(this,_peer2,Toast.LENGTH_LONG).show();
+
 
 
 
@@ -186,9 +193,21 @@ public class MediaActivity
 
 
         _bCalling = false;
+//        startLocalStream();
 
+//
+//        _handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(_peer2 != "no_peer"){
+//                    calling(_peer2);
+//                }
+//
+//            }
+//        });
 
-
+        listingPeers();
+//        calling(_peer2);
         //
         // Initialize views
         //
@@ -234,6 +253,10 @@ public class MediaActivity
 
             }
         });
+
+        this.timer = new Timer();
+        this.maintimerTask = new MainTimerTask();
+        this.timer.schedule(maintimerTask,3000);
 
     }
 
@@ -285,9 +308,9 @@ public class MediaActivity
 
         CallOption option = new CallOption();
 
-
-        if(_peer2 != "no_peer"){
-            _media = _peer.call(_peer2, _msLocal, option);
+        if(String.valueOf(_peer2) != "1"){
+            Toast.makeText(this, "Calling = true", Toast.LENGTH_SHORT).show();
+            _media = _peer.call(strPeerId, _msLocal, option);
         }
 
         Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
@@ -296,8 +319,11 @@ public class MediaActivity
         if (null != _media)
         {
             setMediaCallback(_media);
+            if(String.valueOf(_peer2) != "1"){
+                Toast.makeText(this, "bCalling = true", Toast.LENGTH_SHORT).show();
+                _bCalling = true;
+            }
 
-            _bCalling = true;
         }
 
         //////////////////////////////////////////////////////////////////////
@@ -743,4 +769,26 @@ public class MediaActivity
         super.onDestroy();
     }
 
+    public class MainTimerTask extends TimerTask {
+
+        public void run() {
+            //ここに定周期で実行したい処理を記述します
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    _handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                        if(_peer2 != "no_peer"){
+                            calling(_peer2);
+                        }
+                    }
+                    });
+                }
+            }).start();
+
+            System.out.println("タイマー入った");
+
+        }
+    }
 }
