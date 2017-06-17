@@ -52,9 +52,6 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
     private MySocket s;
     double time;
 
-//    心拍の閾値
-    int Heatbeat_Threashold=80;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -142,30 +139,24 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
 
 //    心拍情報が閾値を超えたかを判定
     public void judgeSleep(double d){
-        if (d > Heatbeat_Threashold){
-            Log.d("閾値超えたか確認","超えたよ");
+        Log.d("心拍確認","送られてきたよ");
 
 
-            Intent intentParam = new Intent();
-            intentParam.setClass(this, MediaActivity.class);
-//            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
-            intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intentParam);
 
+//        Intent intentParam = new Intent();
+//        intentParam.setClass(this, MediaActivity.class);
+////            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
+//        intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intentParam);
 
-        }
-        else{
-            Log.d("閾値超えたか確認","超えてないよ");
+        //************************
+        //
+        //
+        //高谷さんお願いします！！！！
+        //
+        //
+        //************************
             
-            //************************
-            //
-            //
-            //高谷さんお願いします！！！！
-            //
-            //
-            //************************
-            
-        }
     }
 
     // 初回起動時に呼び出される，ファイルの作成
