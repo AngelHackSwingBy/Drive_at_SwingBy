@@ -148,7 +148,6 @@ public class MediaActivity
             }
         });
 
-        while (true){
             try {
                 _peer2 = asyncSocket.execute("59.106.219.4","44344",String.valueOf(_peer)).get();
             } catch (InterruptedException e) {
@@ -156,8 +155,8 @@ public class MediaActivity
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            if (peerID != "") break;
-        }
+
+
 
 
 
@@ -188,10 +187,6 @@ public class MediaActivity
 
         _bCalling = false;
 
-
-        if(judge_sleep == 1){
-
-        }
 
 
         //
@@ -290,8 +285,13 @@ public class MediaActivity
 
         CallOption option = new CallOption();
 
-        _media = _peer.call(_peer2, _msLocal, option);
+
+        if(_peer2 != "no_peer"){
+            _media = _peer.call(_peer2, _msLocal, option);
+        }
+
         Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
+
 
         if (null != _media)
         {
