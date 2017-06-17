@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.wearable.view.WatchViewStub;
@@ -38,7 +39,7 @@ public class MainActivity extends Activity implements SensorEventListener{
     private float x,y,z;
 
 //    心拍数の閾値
-    private int heatbeat_Threashoild = 70;
+    private int heatbeat_Threashoild = 80;
 //    眠い時のフラグ 0:眠くない 1:眠い
     int ImSleep = 0;
 
@@ -142,7 +143,8 @@ public class MainActivity extends Activity implements SensorEventListener{
             // event.values[0]に心拍数がある,wear上に表示
             if (mTextView != null) mTextView.setText(Float.toString(event.values[0]));
 
-            if (event.values[0] > heatbeat_Threashoild) {
+            if (event.values[0] > heatbeat_Threashoild && ImSleep == 0) {
+                ImSleep = 1;
                 Log.d("エラー確認","送信始めるよ");
                 Wearable.MessageApi.sendMessage(mGoogleApiClient, mNode, Float.toString(event.values[0]), null).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
                     @Override
