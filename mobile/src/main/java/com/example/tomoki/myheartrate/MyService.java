@@ -52,9 +52,6 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
     private MySocket s;
     double time;
 
-//    心拍の閾値
-    int Heatbeat_Threashold=80;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -142,8 +139,8 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
 
 //    心拍情報が閾値を超えたかを判定
     public void judgeSleep(double d){
-        if (d > Heatbeat_Threashold){
-            Log.d("閾値超えたか確認","超えたよ");
+        Log.d("心拍確認","送られてきたよ");
+
 
 
         }
@@ -158,8 +155,6 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
             startActivity(intentParam);
 
 
-
-        }
     }
 
     // 初回起動時に呼び出される，ファイルの作成
