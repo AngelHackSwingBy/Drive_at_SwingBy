@@ -143,20 +143,18 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
 
 
 
-//        Intent intentParam = new Intent();
-//        intentParam.setClass(this, MediaActivity.class);
-////            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
-//        intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(intentParam);
+        }
+        else{
+            Log.d("閾値超えたか確認","超えてないよ");
 
-        //************************
-        //
-        //
-        //高谷さんお願いします！！！！
-        //
-        //
-        //************************
-            
+
+            Intent intentParam = new Intent();
+            intentParam.setClass(this, MediaActivity.class);
+//            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
+            intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intentParam);
+
+
     }
 
     // 初回起動時に呼び出される，ファイルの作成
