@@ -308,9 +308,9 @@ public class MediaActivity
 
         CallOption option = new CallOption();
 
-
-        if(_peer2 != "no_peer"){
-            _media = _peer.call(_peer2, _msLocal, option);
+        if(String.valueOf(_peer2) != "1"){
+            Toast.makeText(this, "Calling = true", Toast.LENGTH_SHORT).show();
+            _media = _peer.call(strPeerId, _msLocal, option);
         }
 
         Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
@@ -319,8 +319,11 @@ public class MediaActivity
         if (null != _media)
         {
             setMediaCallback(_media);
+            if(String.valueOf(_peer2) != "1"){
+                Toast.makeText(this, "bCalling = true", Toast.LENGTH_SHORT).show();
+                _bCalling = true;
+            }
 
-            _bCalling = true;
         }
 
         //////////////////////////////////////////////////////////////////////
