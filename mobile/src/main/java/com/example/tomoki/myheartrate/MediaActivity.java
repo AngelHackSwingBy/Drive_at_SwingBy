@@ -285,9 +285,12 @@ public class MediaActivity
 
         CallOption option = new CallOption();
 
+
         if(_peer2 != "no_peer"){
             _media = _peer.call(_peer2, _msLocal, option);
         }
+
+        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
 
 
         if (null != _media)
