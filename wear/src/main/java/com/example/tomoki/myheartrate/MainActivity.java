@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -39,14 +40,28 @@ public class MainActivity extends Activity implements SensorEventListener{
     private float x,y,z;
 
 //    心拍数の閾値
-    private int heatbeat_Threashoild = 80;
-//    眠い時のフラグ 0:眠くない 1:眠い
-    int ImSleep = 0;
+    private int heatbeat_Threashoild = 10;
+//    起動してからの時間
+    int start_time = 7000;
+//    起動してからのフラグ
+    int start_flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+//        タイマー
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                start_flag = 1;
+                Log.d("test","3秒けいか");
+            }
+        }, start_time);
+
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
@@ -143,8 +158,8 @@ public class MainActivity extends Activity implements SensorEventListener{
             // event.values[0]に心拍数がある,wear上に表示
             if (mTextView != null) mTextView.setText(Float.toString(event.values[0]));
 
-            if (event.values[0] > heatbeat_Threashoild && ImSleep == 0) {
-                ImSleep = 1;
+            if (event.values[0] > heatbeat_Threashoild && start_flag == 1) {
+                start_flag = 2;
                 Log.d("エラー確認","送信始めるよ");
                 Wearable.MessageApi.sendMessage(mGoogleApiClient, mNode, Float.toString(event.values[0]), null).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
                     @Override
@@ -156,6 +171,9 @@ public class MainActivity extends Activity implements SensorEventListener{
                 });
             }
 
+
+
+
 //            // mobileに心拍数を送信
 //            Wearable.MessageApi.sendMessage(mGoogleApiClient, mNode, Float.toString(event.values[0]), null).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
 //                @Override
@@ -165,6 +183,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 //                    }
 //                }
 //            });
+
         }
     }
 
