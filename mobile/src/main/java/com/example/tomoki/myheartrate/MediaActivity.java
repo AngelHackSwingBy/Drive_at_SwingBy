@@ -64,6 +64,8 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 
+import java.util.concurrent.ExecutionException;
+
 
 /**
  *
@@ -74,6 +76,7 @@ public class MediaActivity
     private static final String TAG = MediaActivity.class.getSimpleName();
 
     private Peer _peer;
+    private String _peer2;
     private MediaConnection _media;
 
     private MediaStream _msLocal;
@@ -146,7 +149,13 @@ public class MediaActivity
         });
 
         while (true){
-            asyncSocket.execute("59.106.219.4","44344",String.valueOf(_peer));
+            try {
+                _peer2 = asyncSocket.execute("59.106.219.4","44344",String.valueOf(_peer)).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             if (peerID != "") break;
         }
 
@@ -281,7 +290,7 @@ public class MediaActivity
 
         CallOption option = new CallOption();
 
-        _media = _peer.call(strPeerId, _msLocal, option);
+        _media = _peer.call(_peer2, _msLocal, option);
 
         if (null != _media)
         {

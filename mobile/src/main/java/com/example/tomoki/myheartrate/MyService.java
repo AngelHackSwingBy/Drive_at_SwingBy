@@ -140,6 +140,7 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
 //    心拍情報が閾値を超えたかを判定
     public void judgeSleep(double d){
         Log.d("心拍確認","送られてきたよ");
+        Log.d("閾値超えたか確認","超えてないよ");
 
 
         Intent intentParam = new Intent();
@@ -147,6 +148,7 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
 //            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
         intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intentParam);
+
 
     }
 
