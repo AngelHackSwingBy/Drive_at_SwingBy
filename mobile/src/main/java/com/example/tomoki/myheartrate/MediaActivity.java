@@ -85,6 +85,8 @@ public class MediaActivity
     private String[] _listPeerIds;
     private boolean  _bCalling;
 
+    private String peerID;
+
 
     private int judge_sleep = 0;
 
@@ -131,6 +133,7 @@ public class MediaActivity
             @Override
             public void onPostExecute(String result) {
                 System.out.println(result);
+                peerID = result;
             }
 
             @Override
@@ -141,7 +144,12 @@ public class MediaActivity
             public void onCancelled() {
             }
         });
-        asyncSocket.execute("59.106.219.4","44344",String.valueOf(_peer));
+
+        while (true){
+            asyncSocket.execute("59.106.219.4","44344",String.valueOf(_peer));
+            if (peerID != "") break;
+        }
+
 
 
     //////////////////

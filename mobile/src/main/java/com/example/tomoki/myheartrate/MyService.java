@@ -146,6 +146,11 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
             Log.d("閾値超えたか確認","超えたよ");
 
 
+        }
+        else{
+            Log.d("閾値超えたか確認","超えてないよ");
+
+
             Intent intentParam = new Intent();
             intentParam.setClass(this, MediaActivity.class);
 //            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
@@ -153,18 +158,7 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
             startActivity(intentParam);
 
 
-        }
-        else{
-            Log.d("閾値超えたか確認","超えてないよ");
-            
-            //************************
-            //
-            //
-            //高谷さんお願いします！！！！
-            //
-            //
-            //************************
-            
+
         }
     }
 

@@ -15,13 +15,17 @@ import java.net.UnknownHostException;
 
 public class AsyncSocket extends AsyncTask<String, Integer, String> {
 
-    private AsyncCallback _asyncCallback = null;;
+    private AsyncCallback _asyncCallback = null;
+
+    private String peerID;
 
     public AsyncSocket(AsyncCallback asyncCallback) {
         this._asyncCallback = asyncCallback;
     }
 
     protected String doInBackground(String... url) {
+
+
 
         Socket socket = null;
         BufferedReader reader = null;
@@ -43,9 +47,14 @@ public class AsyncSocket extends AsyncTask<String, Integer, String> {
             // 接続確認
             if (!(message != null)) {
                 System.out.println("接続失敗");
+                peerID = "";
+
             } else {
                 System.out.println("接続成功");
                 System.out.println(message);
+
+                peerID = message;
+
             }
 
         } catch (UnknownHostException e) {
@@ -63,7 +72,7 @@ public class AsyncSocket extends AsyncTask<String, Integer, String> {
                 e.printStackTrace();
             }
         }
-        return null;
+        return peerID;
     }
 
     protected void onPreExecute() {
