@@ -163,7 +163,10 @@ public class MediaActivity
                 e.printStackTrace();
             }
 
+
+
         Toast.makeText(this,_peer2,Toast.LENGTH_LONG).show();
+
 
 
 
@@ -197,6 +200,7 @@ public class MediaActivity
         _bCalling = false;
 //        startLocalStream();
 
+
 //
 //        _handler.post(new Runnable() {
 //            @Override
@@ -208,6 +212,7 @@ public class MediaActivity
 //            }
 //        });
 //        calling(_peer2);
+
         //
         // Initialize views
         //
@@ -317,7 +322,7 @@ public class MediaActivity
             _media = _peer.call(strPeerId, _msLocal, option);
         }
 
-        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
 
 
         if (null != _media)
