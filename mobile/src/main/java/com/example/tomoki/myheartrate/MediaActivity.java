@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -64,6 +65,8 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 
@@ -92,6 +95,10 @@ public class MediaActivity
 
 
     private int judge_sleep = 0;
+
+    private Timer timer;
+    private MainTimerTask maintimerTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -156,7 +163,10 @@ public class MediaActivity
                 e.printStackTrace();
             }
 
-        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
+
+
+        Toast.makeText(this,_peer2,Toast.LENGTH_LONG).show();
+
 
 
 
@@ -188,9 +198,20 @@ public class MediaActivity
 
 
         _bCalling = false;
+//        startLocalStream();
 
 
-
+//
+//        _handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(_peer2 != "no_peer"){
+//                    calling(_peer2);
+//                }
+//
+//            }
+//        });
+//        calling(_peer2);
 
         //
         // Initialize views
@@ -211,6 +232,7 @@ public class MediaActivity
                 else
                 {
                     closing();
+                    startService(new Intent(MediaActivity.this, MyService.class));
                 }
 
                 v.setEnabled(true);
@@ -237,6 +259,10 @@ public class MediaActivity
 
             }
         });
+
+        this.timer = new Timer();
+        this.maintimerTask = new MainTimerTask();
+        this.timer.schedule(maintimerTask,5000);
 
     }
 
@@ -288,9 +314,12 @@ public class MediaActivity
 
         CallOption option = new CallOption();
 
-
-        if(_peer2 != "no_peer"){
-            _media = _peer.call(_peer2, _msLocal, option);
+        if(String.valueOf(_peer2).equals("1")){
+//            Toast.makeText(this, "Calling = true", Toast.LENGTH_SHORT).show();
+//            _media = _peer.call(strPeerId, _msLocal, option);
+        }else{
+            Toast.makeText(this, "Calling = true", Toast.LENGTH_SHORT).show();
+            _media = _peer.call(strPeerId, _msLocal, option);
         }
 
 //        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
@@ -299,8 +328,14 @@ public class MediaActivity
         if (null != _media)
         {
             setMediaCallback(_media);
+            if(String.valueOf(_peer2).equals("1")){
+//                Toast.makeText(this, "bCalling = true", Toast.LENGTH_SHORT).show();
+//                _bCalling = true;
+            }else{
+                Toast.makeText(this, "bCalling = true", Toast.LENGTH_SHORT).show();
+                _bCalling = true;
+            }
 
-            _bCalling = true;
         }
 
         //////////////////////////////////////////////////////////////////////
@@ -520,6 +555,8 @@ public class MediaActivity
 
                 JSONArray peers = (JSONArray) object;
 
+                System.out.println("peer:"+peers);
+
                 StringBuilder sbItems = new StringBuilder();
                 for (int i = 0; peers.length() > i; i++) {
                     String strValue = "";
@@ -543,7 +580,12 @@ public class MediaActivity
                 String strItems = sbItems.toString();
                 _listPeerIds = strItems.split(",");
 
+                System.out.println("_listPeerIds[0]:"+_listPeerIds[0]);
+
                 if ((null != _listPeerIds) && (0 < _listPeerIds.length)) {
+
+                    peerID = String.valueOf(_listPeerIds[0]);
+
                     selectingPeer();
                 }
             }
@@ -556,6 +598,9 @@ public class MediaActivity
      */
     void selectingPeer()
     {
+
+        System.out.println("selectingPeerに入った");
+
         if (null == _handler)
         {
             return;
@@ -564,27 +609,37 @@ public class MediaActivity
         _handler.post(new Runnable() {
             @Override
             public void run() {
-                FragmentManager mgr = getFragmentManager();
 
-                PeerListDialogFragment dialog = new PeerListDialogFragment();
-                dialog.setListener(
-                        new PeerListDialogFragment.PeerListDialogFragmentListener() {
-                            @Override
-                            public void onItemClick(final String item) {
+                System.out.println(peerID);
 
-                                _handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        calling(item);
-                                    }
-                                });
-                            }
-                        });
-                dialog.setItems(_listPeerIds);
-
-                dialog.show(mgr, "peerlist");
+//                calling(String.valueOf(_listPeerIds[0]));
+                calling(String.valueOf(peerID));
             }
         });
+
+//        _handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                FragmentManager mgr = getFragmentManager();
+//
+//                PeerListDialogFragment dialog = new PeerListDialogFragment();
+//                dialog.setListener(
+//                        new PeerListDialogFragment.PeerListDialogFragmentListener() {
+//                            @Override
+//                            public void onItemClick(final String item) {
+//                                _handler.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        calling(item);
+//                                    }
+//                                });
+//                            }
+//                        });
+//                dialog.setItems(_listPeerIds);
+//
+//                dialog.show(mgr, "peerlist");
+//            }
+//        });
     }
 
 
@@ -746,4 +801,31 @@ public class MediaActivity
         super.onDestroy();
     }
 
+    public class MainTimerTask extends TimerTask {
+
+        public void run() {
+            //ここに定周期で実行したい処理を記述します
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    _handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                        if(_peer2.equals("1")){
+//                            System.out.println("aaaaaaaaaaa"+String.valueOf(_peer2));
+//                            calling(_peer2);
+                        }else{
+                            System.out.println("aaaaaaaaaaa"+String.valueOf(_peer2));
+//                            calling(peerID);
+                            listingPeers();
+                        }
+                    }
+                    });
+                }
+            }).start();
+
+            System.out.println("タイマー入った");
+
+        }
+    }
 }

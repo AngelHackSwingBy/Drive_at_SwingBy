@@ -135,6 +135,8 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             mGoogleApiClient.disconnect();
         }
         Toast.makeText(this, "MyService#onDestroy", Toast.LENGTH_SHORT).show();
+
+
         close();
     }
 
@@ -146,6 +148,10 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     @Override
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "onConnected");
+
+
+
+
         Wearable.MessageApi.addListener(mGoogleApiClient, this);
     }
 
