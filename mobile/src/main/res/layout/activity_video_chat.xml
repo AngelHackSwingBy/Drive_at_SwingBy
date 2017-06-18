@@ -50,9 +50,9 @@
                 android:id="@+id/llPrimary">
 
                 <io.skyway.Peer.Browser.Canvas
+                    android:id="@+id/svPrimary"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/svPrimary"/>
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
