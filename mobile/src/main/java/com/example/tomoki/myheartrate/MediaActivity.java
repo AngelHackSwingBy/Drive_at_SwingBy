@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -226,6 +227,7 @@ public class MediaActivity
                 else
                 {
                     closing();
+                    startService(new Intent(MediaActivity.this, MyService.class));
                 }
 
                 v.setEnabled(true);
