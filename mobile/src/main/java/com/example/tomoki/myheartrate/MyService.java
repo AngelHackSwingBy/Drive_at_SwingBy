@@ -62,35 +62,69 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     private MySocket s;
     double time;
 
-//    心拍数の判断用flag
+    //    心拍数の判断用flag
     Integer flag2 = 0;
-//    心拍数の閾値
+    //    心拍数の閾値
     Double Threashold = 100.0;
 
-//    起動してからの時間
+    //    起動してからの時間
     int start_time = 5000;
-//    起動してからのフラグ
+    //    起動してからのフラグ
     int start_flag = 0;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         Toast.makeText(this, "MyService#onCreate", Toast.LENGTH_SHORT).show();
+//        sdma=new SimpleDateFormat("yyyy.MM.dd");
+//        sdmb=new SimpleDateFormat("HH:mm:ss:SSS");
+//
+//        initFile();
+//        connect();
+//
+////        //        タイマー
+////        final Handler handler = new Handler();
+////        handler.postDelayed(new Runnable() {
+////            @Override
+////            public void run() {
+////                start_flag = 1;
+////                Log.d("タイマー","時間経過");
+////            }
+////        }, start_time);
+//
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+//                    @Override
+//                    public void onConnectionFailed(ConnectionResult connectionResult) {
+//                        Log.d(TAG, "onConnectionFailed:" + connectionResult.toString());
+//                    }
+//                })
+//                .addApi(Wearable.API)
+//                .build();
+//        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "onStartCommand");
+
         sdma=new SimpleDateFormat("yyyy.MM.dd");
         sdmb=new SimpleDateFormat("HH:mm:ss:SSS");
 
         initFile();
         connect();
 
-        //        タイマー
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                start_flag = 1;
-                Log.d("タイマー","時間経過");
-            }
-        }, start_time);
+//        //        タイマー
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                start_flag = 1;
+//                Log.d("タイマー","時間経過");
+//            }
+//        }, start_time);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -103,11 +137,23 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                 .addApi(Wearable.API)
                 .build();
         mGoogleApiClient.connect();
-    }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand");
+//        再起処理
+//    心拍数の判断用flag
+        flag2 = 0;
+//    起動してからのフラグ
+        start_flag = 0;
+
+        //        タイマー
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                start_flag = 1;
+                Log.d("タイマー","時間経過");
+            }
+        }, start_time);
+
 
         Intent activityIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
