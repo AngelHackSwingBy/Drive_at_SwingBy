@@ -156,7 +156,7 @@ public class MediaActivity
         });
 
             try {
-                _peer2 = asyncSocket.execute("59.106.219.4","44344",String.valueOf(_peer)).get();
+                _peer2 = asyncSocket.execute("1","59.106.219.4","44344",String.valueOf(_peer)).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -415,6 +415,25 @@ public class MediaActivity
             public void onCallback(Object object)
             {
                 Log.d(TAG, "[On/Disconnected]");
+
+                AsyncSocket asyncSocket1 = new AsyncSocket(new AsyncCallback() {
+                    @Override
+                    public void onPreExecute() {
+                    }
+
+                    @Override
+                    public void onPostExecute(String result) {
+                    }
+
+                    @Override
+                    public void onProgressUpdate(int progress) {
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                    }
+                });
+                asyncSocket1.execute("2","59.106.219.4","44344",String.valueOf(_peer));
             }
         });
 
