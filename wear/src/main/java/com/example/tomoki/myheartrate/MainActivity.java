@@ -39,12 +39,16 @@ public class MainActivity extends Activity implements SensorEventListener{
     private String mNode;
     private float x,y,z;
 
-//    心拍数の閾値
-    private int heatbeat_Threashoild = 10;
+////    心拍数の閾値
+//    private int heatbeat_Threashoild = 10;
+//
 //    起動してからの時間
     int start_time = 7000;
 //    起動してからのフラグ
     int start_flag = 0;
+
+//    受信テスト用
+//    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         setContentView(R.layout.activity_main);
 
 
-//        タイマー
+////        タイマー
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -61,6 +65,14 @@ public class MainActivity extends Activity implements SensorEventListener{
                 Log.d("test","3秒けいか");
             }
         }, start_time);
+
+//        受信用
+//        this.client = new GoogleApiClient.Builder(this)
+//                .addApi(Wearable.API)
+//                .build();
+//        this.client.connect();
+
+
 
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -91,6 +103,7 @@ public class MainActivity extends Activity implements SensorEventListener{
                                 }
                             }
                         });
+
                     }
 
                     @Override
@@ -157,19 +170,34 @@ public class MainActivity extends Activity implements SensorEventListener{
             Log.d("エラー確認","送信フェーズには入ってるよ");
             // event.values[0]に心拍数がある,wear上に表示
             if (mTextView != null) mTextView.setText(Float.toString(event.values[0]));
-
-            if (event.values[0] > heatbeat_Threashoild && start_flag == 1) {
-                start_flag = 2;
-                Log.d("エラー確認","送信始めるよ");
-                Wearable.MessageApi.sendMessage(mGoogleApiClient, mNode, Float.toString(event.values[0]), null).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
-                    @Override
-                    public void onResult(MessageApi.SendMessageResult result) {
-                        if (!result.getStatus().isSuccess()) {
-                            Log.d(TAG, "ERROR : failed to send Message" + result.getStatus());
-                        }
+            Log.d("エラー確認","送信始めるよ");
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, mNode, Float.toString(event.values[0]), null).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+                @Override
+                public void onResult(MessageApi.SendMessageResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        Log.d(TAG, "ERROR : failed to send Message" + result.getStatus());
                     }
-                });
-            }
+                }
+            });
+
+
+
+
+//            if (event.values[0] > heatbeat_Threashoild && start_flag == 1) {
+//                start_flag = 2;
+//                Log.d("エラー確認","送信始めるよ");
+//                Wearable.MessageApi.sendMessage(mGoogleApiClient, mNode, Float.toString(event.values[0]), null).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+//                    @Override
+//                    public void onResult(MessageApi.SendMessageResult result) {
+//                        if (!result.getStatus().isSuccess()) {
+//                            Log.d(TAG, "ERROR : failed to send Message" + result.getStatus());
+//                        }
+//                    }
+//                });
+//            }
+
+//            Log.d("送受信確認","受信フェーズには入ってるよ");
+
 
 
 

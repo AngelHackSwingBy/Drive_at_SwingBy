@@ -1,22 +1,29 @@
 package com.example.tomoki.myheartrate;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.util.Measure;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
+import android.speech.RecognizerIntent;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,17 +39,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
 import static java.lang.Double.parseDouble;
 
 /**
  * Created by Tomoki on 2017/05/30.
  */
 
-public class MyService extends Service  implements GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener{
+public class MyService extends Service implements GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener{
     private static final String TAG = MainActivity.class.getName();
     private String fileName="result.csv";
     SimpleDateFormat sdma,sdmb;
@@ -51,6 +61,16 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
     private String msg;
     private MySocket s;
     double time;
+
+//    心拍数の判断用flag
+    Integer flag2 = 0;
+//    心拍数の閾値
+    Double Threashold = 100.0;
+
+//    起動してからの時間
+    int start_time = 5000;
+//    起動してからのフラグ
+    int start_flag = 0;
 
     @Override
     public void onCreate() {
@@ -61,6 +81,16 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
 
         initFile();
         connect();
+
+        //        タイマー
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                start_flag = 1;
+                Log.d("タイマー","時間経過");
+            }
+        }, start_time);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -138,19 +168,24 @@ public class MyService extends Service  implements GoogleApiClient.ConnectionCal
     }
 
 //    心拍情報が閾値を超えたかを判定
-    public void judgeSleep(double d){
-        Log.d("心拍確認","送られてきたよ");
-        Log.d("閾値超えたか確認","超えてないよ");
+    public void judgeSleep(double d) {
+        Log.d("心拍確認", "送られてきたよ");
 
 
-        Intent intentParam = new Intent();
-        intentParam.setClass(this, MediaActivity.class);
-//            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
-        intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intentParam);
-
-
+        if (flag2 == 0 && d < Threashold && start_flag == 1) {
+//        if (flag2 == 0 && d < Threashold) {
+            flag2 = 1;
+            start_flag = 2;
+            Log.d("Intent遷移確認","遷移するよ");
+            Toast.makeText(this, "Intent遷移", Toast.LENGTH_SHORT).show();
+            Intent intentParam = new Intent();
+            intentParam.setClass(this, MediaActivity.class);
+            //            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
+            intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intentParam);
+        }
     }
+
 
     // 初回起動時に呼び出される，ファイルの作成
     public void initFile(){

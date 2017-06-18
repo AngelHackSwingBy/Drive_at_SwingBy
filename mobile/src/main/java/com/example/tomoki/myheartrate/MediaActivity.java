@@ -156,6 +156,8 @@ public class MediaActivity
                 e.printStackTrace();
             }
 
+        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
+
 
 
 
@@ -186,6 +188,7 @@ public class MediaActivity
 
 
         _bCalling = false;
+
 
 
 
@@ -290,7 +293,7 @@ public class MediaActivity
             _media = _peer.call(_peer2, _msLocal, option);
         }
 
-        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
 
 
         if (null != _media)
