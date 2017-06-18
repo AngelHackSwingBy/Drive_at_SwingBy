@@ -76,40 +76,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(this, "MyService#onCreate", Toast.LENGTH_SHORT).show();
-//        sdma=new SimpleDateFormat("yyyy.MM.dd");
-//        sdmb=new SimpleDateFormat("HH:mm:ss:SSS");
-//
-//        initFile();
-//        connect();
-//
-////        //        タイマー
-////        final Handler handler = new Handler();
-////        handler.postDelayed(new Runnable() {
-////            @Override
-////            public void run() {
-////                start_flag = 1;
-////                Log.d("タイマー","時間経過");
-////            }
-////        }, start_time);
-//
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-//                    @Override
-//                    public void onConnectionFailed(ConnectionResult connectionResult) {
-//                        Log.d(TAG, "onConnectionFailed:" + connectionResult.toString());
-//                    }
-//                })
-//                .addApi(Wearable.API)
-//                .build();
-//        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand");
-
+        //Toast.makeText(this, "MyService#onCreate", Toast.LENGTH_SHORT).show();
         sdma=new SimpleDateFormat("yyyy.MM.dd");
         sdmb=new SimpleDateFormat("HH:mm:ss:SSS");
 
@@ -137,22 +104,55 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                 .addApi(Wearable.API)
                 .build();
         mGoogleApiClient.connect();
+    }
 
-//        再起処理
-//    心拍数の判断用flag
-        flag2 = 0;
-//    起動してからのフラグ
-        start_flag = 0;
-
-        //        タイマー
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                start_flag = 1;
-                Log.d("タイマー","時間経過");
-            }
-        }, start_time);
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "onStartCommand");
+//
+//        sdma=new SimpleDateFormat("yyyy.MM.dd");
+//        sdmb=new SimpleDateFormat("HH:mm:ss:SSS");
+//
+//        initFile();
+//        connect();
+//
+////        //        タイマー
+////        final Handler handler = new Handler();
+////        handler.postDelayed(new Runnable() {
+////            @Override
+////            public void run() {
+////                start_flag = 1;
+////                Log.d("タイマー","時間経過");
+////            }
+////        }, start_time);
+//
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+//                    @Override
+//                    public void onConnectionFailed(ConnectionResult connectionResult) {
+//                        Log.d(TAG, "onConnectionFailed:" + connectionResult.toString());
+//                    }
+//                })
+//                .addApi(Wearable.API)
+//                .build();
+//        mGoogleApiClient.connect();
+//
+////        再起処理
+////    心拍数の判断用flag
+//        flag2 = 0;
+////    起動してからのフラグ
+//        start_flag = 0;
+//
+//        //        タイマー
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                start_flag = 1;
+//                Log.d("タイマー","時間経過");
+//            }
+//        }, start_time);
 
 
         Intent activityIntent = new Intent(this, MainActivity.class);
@@ -224,19 +224,30 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         Log.d("心拍確認", "送られてきたよ");
 
 
-        if (flag2 == 0 && d < Threashold && start_flag == 1) {
-//        if (flag2 == 0 && d < Threashold) {
-            flag2 = 1;
-            start_flag = 2;
-            Log.d("Intent遷移確認","遷移するよ");
-            Toast.makeText(this, "Intent遷移", Toast.LENGTH_SHORT).show();
-            Intent intentParam = new Intent();
-            intentParam.setClass(this, MediaActivity.class);
-            //            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
-            intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intentParam);
-        }
+//        if (flag2 == 0 && d < Threashold && start_flag == 1) {
+////        if (flag2 == 0 && d < Threashold) {
+//            flag2 = 1;
+//            start_flag = 2;
+//            Log.d("Intent遷移確認","遷移するよ");
+//            //Toast.makeText(this, "Intent遷移", Toast.LENGTH_SHORT).show();
+//            Intent intentParam = new Intent();
+//            intentParam.setClass(this, MediaActivity.class);
+//            //            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
+//            intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intentParam);
+//        }
+
+
+        //Toast.makeText(this, "Intent遷移", Toast.LENGTH_SHORT).show();
+        Intent intentParam = new Intent();
+        intentParam.setClass(this, MediaActivity.class);
+        //            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
+        intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intentParam);
     }
+
+
+
 
 
     // 初回起動時に呼び出される，ファイルの作成

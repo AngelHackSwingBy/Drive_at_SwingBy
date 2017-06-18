@@ -165,7 +165,7 @@ public class MediaActivity
 
 
 
-        Toast.makeText(this,_peer2,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,_peer2,Toast.LENGTH_LONG).show();
 
 
 
@@ -232,7 +232,7 @@ public class MediaActivity
                 else
                 {
                     closing();
-                    startService(new Intent(MediaActivity.this, MyService.class));
+//                    startService(new Intent(MediaActivity.this, MyService.class));
                 }
 
                 v.setEnabled(true);
@@ -315,24 +315,24 @@ public class MediaActivity
         CallOption option = new CallOption();
 
         if(String.valueOf(_peer2).equals("1")){
-//            Toast.makeText(this, "Calling = true", Toast.LENGTH_SHORT).show();
+//            //Toast.makeText(this, "Calling = true", Toast.LENGTH_SHORT).show();
 //            _media = _peer.call(strPeerId, _msLocal, option);
         }else{
-            Toast.makeText(this, "Calling = true", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Calling = true", Toast.LENGTH_SHORT).show();
             _media = _peer.call(strPeerId, _msLocal, option);
         }
 
-//        Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
+//        //Toast.makeText(this, _peer2, Toast.LENGTH_SHORT).show();
 
 
         if (null != _media)
         {
             setMediaCallback(_media);
             if(String.valueOf(_peer2).equals("1")){
-//                Toast.makeText(this, "bCalling = true", Toast.LENGTH_SHORT).show();
+//                //Toast.makeText(this, "bCalling = true", Toast.LENGTH_SHORT).show();
 //                _bCalling = true;
             }else{
-                Toast.makeText(this, "bCalling = true", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "bCalling = true", Toast.LENGTH_SHORT).show();
                 _bCalling = true;
             }
 
@@ -405,16 +405,6 @@ public class MediaActivity
             public void onCallback(Object object)
             {
                 Log.d(TAG, "[On/Close]");
-            }
-        });
-
-        // !!!: Event/Disconnected
-        peer.on(Peer.PeerEventEnum.DISCONNECTED, new OnCallback()
-        {
-            @Override
-            public void onCallback(Object object)
-            {
-                Log.d(TAG, "[On/Disconnected]");
 
                 AsyncSocket asyncSocket1 = new AsyncSocket(new AsyncCallback() {
                     @Override
@@ -434,6 +424,16 @@ public class MediaActivity
                     }
                 });
                 asyncSocket1.execute("2","59.106.219.4","44344",String.valueOf(_peer));
+            }
+        });
+
+        // !!!: Event/Disconnected
+        peer.on(Peer.PeerEventEnum.DISCONNECTED, new OnCallback()
+        {
+            @Override
+            public void onCallback(Object object)
+            {
+                Log.d(TAG, "[On/Disconnected]");
             }
         });
 

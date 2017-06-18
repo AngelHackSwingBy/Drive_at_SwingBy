@@ -98,11 +98,11 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intentParam = new Intent();
 //                intentParam.setClassName("org.jpn.techbooster.demo.intent","org.jpn.techbooster.demo.intent.SubActivity");
-//                intentParam.setClass(getApplicationContext(), com.example.tomoki.myheartrate.MediaActivity.class);
+                intentParam.setClass(getApplicationContext(), com.example.tomoki.myheartrate.MediaActivity.class);
 //            intentParam.putExtra(OPTION_SERVER_TYPE, _iSelectedType);
 //                intentParam.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intentParam);
-                startService(new Intent(MainActivity.this, MyService.class));
+                startActivity(intentParam);
+//                startService(new Intent(MainActivity.this, MyService.class));
 
 //                追加部分
                 TextView txt = (TextView) findViewById(R.id.view_heatbeat);
