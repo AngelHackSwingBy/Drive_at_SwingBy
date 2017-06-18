@@ -25,54 +25,140 @@ public class AsyncSocket extends AsyncTask<String, Integer, String> {
 
     protected String doInBackground(String... url) {
 
+        if(url[0].equals("1")) {
 
-
-        Socket socket = null;
-        BufferedReader reader = null;
-        try {
-            // サーバーへ接続
-            socket = new Socket(url[0], Integer.valueOf(url[1]));
-
-            PrintWriter pw = new PrintWriter(socket.getOutputStream(),true);
-
-            pw.println("1,"+url[2]);
-
-            // メッセージ取得オブジェクトのインスタンス化
-            reader = new BufferedReader(new InputStreamReader(socket
-                    .getInputStream()));
-
-            // サーバーからのメッセージを受信
-            String message = reader.readLine();
-
-            // 接続確認
-            if (!(message != null)) {
-                System.out.println("接続失敗");
-                peerID = "";
-
-            } else {
-                System.out.println("接続成功");
-                System.out.println(message);
-
-                peerID = message;
-
-            }
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        } finally {
+            Socket socket = null;
+            BufferedReader reader = null;
             try {
-                // 接続終了処理
-                reader.close();
-                socket.close();
+                // サーバーへ接続
+                socket = new Socket(url[1], Integer.valueOf(url[2]));
+
+                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+
+                pw.println("1," + url[3]);
+
+                // メッセージ取得オブジェクトのインスタンス化
+                reader = new BufferedReader(new InputStreamReader(socket
+                        .getInputStream()));
+
+                // サーバーからのメッセージを受信
+                String message = reader.readLine();
+
+                // 接続確認
+                if (!(message != null)) {
+                    System.out.println("接続失敗");
+                    peerID = "";
+
+                } else {
+                    System.out.println("接続成功");
+                    System.out.println(message);
+
+                    peerID = message;
+                }
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+
             } catch (IOException e) {
                 e.printStackTrace();
+
+            } finally {
+                try {
+                    // 接続終了処理
+                    reader.close();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            return peerID;
+        }else if(url[0].equals("0")){
+            Socket socket = null;
+            BufferedReader reader = null;
+            try {
+                // サーバーへ接続
+                socket = new Socket(url[1], Integer.valueOf(url[2]));
+
+                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+
+                pw.println("0," +url[3]+","+url[4]+","+url[5]+","+url[6]);
+
+                // メッセージ取得オブジェクトのインスタンス化
+                reader = new BufferedReader(new InputStreamReader(socket
+                        .getInputStream()));
+
+                // サーバーからのメッセージを受信
+                String message = reader.readLine();
+
+                // 接続確認
+                if (!(message != null)) {
+                    System.out.println("接続失敗");
+
+                } else {
+                    System.out.println("接続成功");
+                    System.out.println(message);
+                }
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+                try {
+                    // 接続終了処理
+                    reader.close();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }else {
+            Socket socket = null;
+            BufferedReader reader = null;
+            try {
+                // サーバーへ接続
+                socket = new Socket(url[1], Integer.valueOf(url[2]));
+
+                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+
+                pw.println("2," +url[3]);
+
+                // メッセージ取得オブジェクトのインスタンス化
+                reader = new BufferedReader(new InputStreamReader(socket
+                        .getInputStream()));
+
+                // サーバーからのメッセージを受信
+                String message = reader.readLine();
+
+                // 接続確認
+                if (!(message != null)) {
+                    System.out.println("接続失敗");
+
+                } else {
+                    System.out.println("接続成功");
+                    System.out.println(message);
+                }
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+                try {
+                    // 接続終了処理
+                    reader.close();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
         }
-        return peerID;
     }
 
     protected void onPreExecute() {
