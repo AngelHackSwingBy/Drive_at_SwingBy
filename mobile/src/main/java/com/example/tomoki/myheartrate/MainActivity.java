@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity{
 
 //                追加部分
                 TextView txt = (TextView) findViewById(R.id.view_heatbeat);
-                txt.setText("hello");
+                txt.setText(" ");
 //                txt.setText(MyService.msg);
             }
         } );

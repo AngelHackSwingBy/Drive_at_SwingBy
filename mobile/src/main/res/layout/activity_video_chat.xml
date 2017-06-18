@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
 
     >
 
     <LinearLayout
         android:orientation="vertical"
+        android:background="@drawable/a"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
@@ -25,9 +25,11 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
+                android:textColor="#003366"
                 android:text="Calling"
+                android:alpha="0.8"
                 android:id="@+id/btnAction"
                 android:enabled="false"/>
         </LinearLayout>
@@ -100,9 +102,11 @@
             android:layout_height="match_parent"
             android:gravity="center|bottom">
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:text="Switch Camera"
+                android:textColor="#003366"
+                android:alpha="0.6"
                 android:id="@+id/switchCameraAction"
                 android:enabled="true" />
         </LinearLayout>
