@@ -2,21 +2,21 @@
     <string name="app_name">Drive_at_SwingBy</string>
 
     <string-array name="list01">
-        <item>映画</item>
-        <item>音楽</item>
-        <item>アニメ</item>
+        <item>movie</item>
+        <item>music</item>
+        <item>anime</item>
     </string-array>
 
     <string-array name="list02">
-        <item>旅行</item>
-        <item>スポーツ</item>
-        <item>お散歩</item>
+        <item>trip</item>
+        <item>sports</item>
+        <item>walking</item>
     </string-array>
 
     <string-array name="list03">
-        <item>料理は食べる</item>
-        <item>料理は作る</item>
-        <item>料理は見る</item>
+        <item>eating</item>
+        <item>cooking</item>
+        <item>shopping</item>
     </string-array>
 
 
